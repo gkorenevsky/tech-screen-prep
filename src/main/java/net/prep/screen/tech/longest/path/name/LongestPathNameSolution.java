@@ -65,13 +65,11 @@ public class LongestPathNameSolution {
 
         String currDirName = currentToken.substring(level);
 
-
-        // otherwise
         // Iterate through a list of tokens
         for (var nextId = previewNextToken(); nextId != null; nextId = previewNextToken()) {
             // if a token doesn't start with the number of tabs == level+1, terminate recursion
             if (!checkCurrentLevel(nextId, level + 1)) {
-                return (curMaxPathLength > 0) ? curMaxPathLength + 1 + currDirName.length() : 0;
+                break;
             }
             //  for every file name, calculate max path length by adding current path
             if (isFile(nextId)) {
