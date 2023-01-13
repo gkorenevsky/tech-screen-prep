@@ -36,4 +36,19 @@ class LongestPathNameSolutionUnitTest {
         assertEquals(15, len);
     }
 
+    @Test
+    void longestPathLengthForDirectoryWithFilesAndSubdirectoryWithFiles() {
+
+        int len = sut.longestPathLength("dir"+'\n'+"\ta.ext"+'\n'+"\tsub 1"+'\n'+"\t\tb.ext\n\tvery long file name.ext");
+        assertEquals(27, len);
+    }
+
+    @Test
+    void longestPathLengthForDirectoryWithFilesAndSubdirectoriesWithFiles() {
+
+        int len = sut.longestPathLength("dir"+'\n'+"\ta.ext"+'\n'+"\tsub 1"+'\n'+"\t\tb.ext\n\tvery long file name.ext"
+                + "\n\tsub 2\n\t\tsuper long file name.ext");
+        assertEquals(34, len);
+    }
+
 }
