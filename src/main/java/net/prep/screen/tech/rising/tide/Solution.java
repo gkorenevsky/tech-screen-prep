@@ -57,6 +57,8 @@ public class Solution {
     //START PROBLEM HERE
     record Cell (int row, int col) {}
 
+    // Define direction of grid traversal. This prevents creation of cycles, assuming
+    // traversal is only down, left or right
     enum Direction {
         Left,
         Right,
@@ -64,6 +66,8 @@ public class Solution {
         Up,
         None
     }
+
+    // The main driver method which returns the desired min. water height
     public int getMinWaterHeight(int[][] grid) {
 
         // get grid dimensions
@@ -83,6 +87,8 @@ public class Solution {
         return minHeight.get();
     }
 
+    // This method begins grid traversal for height h. All cells with values <= h are considered
+    // to be "blocking" cells, disallowing further traversal
     private boolean existsPathForHeight(int h, int[][] grid, int nRows, int nCols) {
         Cell currCell = new Cell(0,0);
         Cell target = new Cell(nRows - 1, nCols - 1);
@@ -90,6 +96,11 @@ public class Solution {
         return result;
     }
 
+    // This method performs the recursive traversal of the grid using height h, starting at a given cell,
+    // then recursively evaluating paths starting with the cells immediately below, to the right and, finally,
+    // to the left of the current cell. If a current cell is not "blocking" and there exists a path through either
+    // bottom, right or left cell, then the current cell is considered to be a part of the allowed path from
+    // the origin to the destination
     private boolean existsPathForHeight(int h, int[][] grid, int nRows, int nCols, Cell currCell, Direction dir) {
 
         // check if this is the destination cell
