@@ -94,13 +94,20 @@ public class Solution {
         return new Token(tt, t);
     }
 
+    // todo: for subtraction, push negative value and replace operator with addition
     private int evalExpr() {
 
         while (this.hasTokens()) {
             Token t = getToken();
 
             if (t.type() == TokenType.NUMBER) {
-                pushValue(t);
+                if (checkLastOperator() == TokenType.MINUS) {
+                    getLastOperator();
+                    pushOperator(new Token(TokenType.PLUS, "+"));
+                    pushNegativeValue(t);
+                } else {
+                    pushValue(t);
+                }
                 if (checkLastOperator() == TokenType.MULT) {
                     evalTop();
                 }
@@ -120,6 +127,10 @@ public class Solution {
         }
 
         return lastValue();
+    }
+
+    private void pushNegativeValue(Token t) {
+        valueQ.addLast(-1 * Integer.parseInt(t.value()));
     }
 
     private void evalTop() {

@@ -70,8 +70,8 @@ class SolutionTest {
 
     @Test
     public void testComplexExpression() {
-        sut.setExpression("( 1 + 2 + 3) * ( 3 * 4 * 5 ) * 6 - 3 - 2 + 11");
-        assertEquals(2154, sut.evalString());
+        sut.setExpression("( 1 + 2 + 3 ) * ( 3 * 4 * 5 ) * 6 - 3 - 2 + 11");
+        assertEquals(2166, sut.evalString());
     }
 
 
