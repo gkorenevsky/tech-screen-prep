@@ -91,10 +91,10 @@ public class Solution {
             default:
                 yield (t.matches("\\d+")) ? TokenType.NUMBER : TokenType.UNKNOWN;
         };
+
         return new Token(tt, t);
     }
 
-    // todo: for subtraction, push negative value and replace operator with addition
     private int evalExpr() {
 
         while (this.hasTokens()) {
@@ -176,6 +176,5 @@ public class Solution {
     private boolean isOperation(Token t) {
         return operations.contains(t.type());
     }
-
 
 }
