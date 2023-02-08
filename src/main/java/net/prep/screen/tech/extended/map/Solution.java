@@ -8,13 +8,12 @@ public class Solution {
 
         long result = 0;
         var map = new HashMap<Integer, Integer>();
-        var shadowMap = new HashMap<Integer, Integer>();
 
         for (int i = 0; i < queryType.length; i++) {
             int[] qv = query[i];
             switch (queryType[i].toLowerCase()) {
                 case "insert" -> handleInsert(qv, map);
-                case "addtokey" ->  handleAddToKey(qv, map, shadowMap);
+                case "addtokey" ->  handleAddToKey(qv, map);
                 case "addtovalue" -> handleAddToValue(qv, map);
                 case "get" -> result += handleGet(qv, map);
                 default -> {}
@@ -35,8 +34,10 @@ public class Solution {
         }
     }
 
-    private void handleAddToKey(int[] qv, Map<Integer, Integer> map, Map<Integer, Integer> shadowMap) {
+    private void handleAddToKey(int[] qv, Map<Integer, Integer> map) {
 
+        var shadowMap = new HashMap<Integer, Integer>();
+        
         for (Map.Entry<Integer, Integer> e : map.entrySet()) {
             Integer oldKey = e.getKey();
             Integer value = (shadowMap.containsKey(oldKey)) ? shadowMap.get(oldKey) : e.getValue();
