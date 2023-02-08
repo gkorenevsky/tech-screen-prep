@@ -3,38 +3,24 @@ package net.prep.screen.tech.eval.via.tree.expression;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Optional;
 
 public class Solution {
 
     final String operations = "+-x/";
     final String multiplications = "x/";
 
-    private String formula;
-
-    public Solution(String formula) {
-        this.formula = formula;
-    }
-
-    public String getFormula() {
-        return this.formula;
-    }
-
-    public void setFormula(String formula) {
-        this.formula = formula;
-    }
+    public Solution() {}
 
     public float evaluate(String formula) {
 
         float result = 0f;
 
-        var tokens = Arrays.asList(formula.split(" "));
-        var tokenIt = tokens.iterator();
+        var tokens = formula.split(" ");
 
-        while (tokenIt.hasNext()) {
-            String nextToken = tokenIt.next();
-
+        for (String nextToken : tokens) {
             // if this is an operator
-            if (operations.indexOf(nextToken) >= 0) {
+            if (operations.contains(nextToken)) {
                 OperatorNode newOperator = new OperatorNode(nextToken);
                 pushOperator(newOperator);
             } else {
@@ -46,7 +32,7 @@ public class Solution {
                 // If the last operator is a multiply or a divide,
                 // reduce both stacks
                 OperatorNode lastOper = (OperatorNode) checkLastOperator();
-                if (lastOper != null && multiplications.indexOf(lastOper.getOperator()) >= 0) {
+                if (lastOper != null && multiplications.contains(lastOper.getOperator())) {
                     reduceStacks();
                 }
             }
@@ -54,10 +40,10 @@ public class Solution {
 
         // complete the expression tree
         while (!operatorStack.isEmpty()) {
-            consoliodateStacks();
+            consolidateStacks();
         }
 
-        result = evalTree(checkLastOperand());
+        result = Optional.ofNullable(checkLastOperand()).map(this::evalTree).orElse(0f);
 
         return result;
     }
@@ -92,7 +78,7 @@ public class Solution {
         pushOperand(lastOper);
     }
 
-    private void consoliodateStacks() {
+    private void consolidateStacks() {
         OperatorNode lastOper = (OperatorNode) popFrontOperator();
         lastOper.setLeft(popFrontOperand());
         lastOper.setRight(popFrontOperand());
@@ -105,7 +91,7 @@ public class Solution {
     }
 
     private abstract static class TreeNode {
-        private NodeType type;
+        private final NodeType type;
         private TreeNode left;
         private TreeNode right;
 
@@ -139,7 +125,7 @@ public class Solution {
 
     private static class OperatorNode extends TreeNode {
 
-        private String operator;
+        private final String operator;
 
         public OperatorNode(String operator) {
             super(NodeType.OPERATOR);
@@ -153,7 +139,7 @@ public class Solution {
 
     private static class OperandNode extends TreeNode {
 
-        private float value;
+        private final float value;
 
         public OperandNode(float value) {
             super(NodeType.OPERAND);
@@ -212,9 +198,9 @@ public class Solution {
 
         for (String formula : formulas) {
             System.out.println("Evaluating formula: " + formula);
-            Solution sol = new Solution(formula);
+            Solution sol = new Solution();
             float result = sol.evaluate(formula);
-            System.out.println("Formula: " + formula + " evaluaates to: " + result);
+            System.out.println("Formula: " + formula + " evaluates to: " + result);
         }
     }
 
